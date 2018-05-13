@@ -1,17 +1,13 @@
 package g2webservices.interview.models.elevator;
 
-import g2webservices.interview.enums.DirectionEnum;
-
 public class ElevatorRequest {
 
 	private int target;
-	private DirectionEnum direction;
 	private int weight;
 	
 	
-	public ElevatorRequest(int target, DirectionEnum direction, int weight) {
+	public ElevatorRequest(int target, int weight) {
 		this.target = target;
-		this.direction = direction;
 		this.weight = weight;
 	}
 
@@ -21,9 +17,6 @@ public class ElevatorRequest {
 	}
 
 
-	public DirectionEnum getDirection() {
-		return direction;
-	}
 
 
 	public int getWeight() {
@@ -33,7 +26,7 @@ public class ElevatorRequest {
 
 	@Override
 	public String toString() {
-		return "ElevatorRequest [target=" + target + ", direction=" + direction + ", weight=" + "weight ]";
+		return "ElevatorRequest [target=" + target + ", weight=" + "weight ]";
 	}
 	
 }

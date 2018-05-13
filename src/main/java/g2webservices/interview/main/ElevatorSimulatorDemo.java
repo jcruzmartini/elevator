@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 
 import g2webservices.interview.enums.StatusEnum;
 import g2webservices.interview.handlers.ElevatorRequestHandler;
-import g2webservices.interview.handlers.ElevatorSecuredRequestHandler;
+import g2webservices.interview.handlers.ElevatorSimpleRequestHandler;
+import g2webservices.interview.handlers.ElevatorKeyCardRequestHandler;
 import g2webservices.interview.keycard.DummyCardAccessSystem;
 import g2webservices.interview.keycard.KeyCardAccessSystem;
 import g2webservices.interview.manager.ElevatorRequestManager;
@@ -39,61 +40,72 @@ public class ElevatorSimulatorDemo {
 		List<FloorChangeObserver> observersForPublic = getFloorsToBeNotified();
 		Building bulding = new Building(MAX_FLOOR, MIN_FLOOR);
 
-		ElevatorCab cabPublicElevator = new ElevatorCab("Cab Public Elevator");
-		ElevatorState state = new ElevatorState(null, 0, StatusEnum.IDLE);
-		Elevator publicElevator = new ElevatorImpl("Pulic Elevator", state, 1, observersForPublic,
-				Stream.of(MIN_FLOOR, MAX_FLOOR).collect(Collectors.toSet()), cabPublicElevator);
-		bulding.addElevator(publicElevator);
+		ElevatorCab cabin = new ElevatorCab("Cab Public Elevator");
+		Elevator elevator = new ElevatorImpl("Public", new ElevatorState(null, 0, StatusEnum.IDLE), 1,
+				observersForPublic, Stream.of(MIN_FLOOR, MAX_FLOOR).collect(Collectors.toSet()), cabin);
+		bulding.addElevator(elevator);
 
 		KeyCardAccessSystem keyCard = new DummyCardAccessSystem();
-		ElevatorRequestHandler handler = new ElevatorSecuredRequestHandler(publicElevator, keyCard);
-		ElevatorRequestManager pManager = new ElevatorRequestManagerImpl(publicElevator, handler);
+		ElevatorRequestHandler handler = new ElevatorKeyCardRequestHandler(elevator, keyCard);
+		ElevatorRequestManager pManager = new ElevatorRequestManagerImpl(elevator, handler);
 		executor.submit(pManager);
 
-		ElevatorRequest request = new ElevatorRequest(16, null, 0);
+		ElevatorRequest request = new ElevatorRequest(16, 0);
 		pManager.send(request);
 
 		simulate(2);
 
-		ElevatorRequest request2 = new ElevatorRequest(-1, null, 0);
+		ElevatorRequest request2 = new ElevatorRequest(-1, 0);
 		pManager.send(request2);
 
 		simulate(2);
 
-		ElevatorRequest request3 = new ElevatorRequest(5, null, 0);
+		ElevatorRequest request3 = new ElevatorRequest(5, 0);
 		pManager.send(request3);
 
 		simulate(2);
 
-		ElevatorRequest request4 = new ElevatorRequest(5, null, 2);
+		ElevatorRequest request4 = new ElevatorRequest(50, 0);
 		pManager.send(request4);
 
-		// List<FloorChangeObserver> observersForFreight =
-		// getFloorsToBeNotified();
-		// ElevatorCab cabFreightElevator = new ElevatorCab("Cab Freight
-		// Elevator");
-		// ElevatorState state2 = new ElevatorState(null, 0, StatusEnum.IDLE);
-		// Elevator freightElevator = new ElevatorImpl("Freight Elevator",
-		// state2, 3, observersForFreight, null, cabFreightElevator);
-		// bulding.addElevator(freightElevator);
-		//
-		// ElevatorRequestHandler handlerFr = new
-		// ElevatorSimpleRequestHandler(freightElevator);
-		// ElevatorRequestManager fRManager = new
-		// ElevatorRequestManagerImpl(freightElevator,handlerFr);
-		// executor.submit(fRManager);
-		//
-		// ElevatorRequest request5 = new ElevatorRequest(16, null, 0);
-		// fRManager.send(request5);
-		//
-		// ElevatorRequest request6 = new ElevatorRequest(-1, null, 0);
-		// fRManager.send(request6);
-		//
-		// ElevatorRequest request7 = new ElevatorRequest(5, null, 0);
-		// fRManager.send(request7);
-		//
-		// ElevatorRequest request8 = new ElevatorRequest(5, null, 2);
-		// fRManager.send(request8);
+		simulate(2);
+
+		ElevatorRequest request5 = new ElevatorRequest(5, 2);
+		pManager.send(request5);
+
+		ElevatorRequest request6 = new ElevatorRequest(30, 2);
+		pManager.send(request6);
+
+		ElevatorRequest request7 = new ElevatorRequest(45, 2);
+		pManager.send(request7);
+
+		List<FloorChangeObserver> observersForFreight = getFloorsToBeNotified();
+		ElevatorCab cabinFreight = new ElevatorCab("Cab Freight Elevator");
+		Elevator freightElevator = new ElevatorImpl("Freight", new ElevatorState(null, 0, StatusEnum.IDLE), 3,
+				observersForFreight, null, cabinFreight);
+		bulding.addElevator(freightElevator);
+
+		ElevatorRequestHandler handlerFr = new ElevatorSimpleRequestHandler(freightElevator);
+		ElevatorRequestManager fRManager = new ElevatorRequestManagerImpl(freightElevator, handlerFr);
+		executor.submit(fRManager);
+
+		ElevatorRequest request8 = new ElevatorRequest(16, 0);
+		fRManager.send(request8);
+		
+		simulate(2);
+
+		ElevatorRequest request9 = new ElevatorRequest(-1, 0);
+		fRManager.send(request9);
+
+		simulate(2);
+
+		ElevatorRequest request10 = new ElevatorRequest(5, 0);
+		fRManager.send(request10);
+		
+		simulate(2);
+
+		ElevatorRequest request11 = new ElevatorRequest(5, 2);
+		fRManager.send(request11);
 
 	}
 

@@ -9,11 +9,11 @@ import g2webservices.interview.models.elevator.ElevatorRequest;
  * @author jmartini
  *
  */
-public class ElevatorSecuredRequestHandler extends ElevatorRequestHandlerAbstract {
+public class ElevatorKeyCardRequestHandler extends ElevatorRequestHandlerAbstract {
 	
 	private final KeyCardAccessSystem keyCardSystem;
 	
-	public ElevatorSecuredRequestHandler(Elevator elevator, KeyCardAccessSystem keyCard) {
+	public ElevatorKeyCardRequestHandler(Elevator elevator, KeyCardAccessSystem keyCard) {
 		super(elevator);
 		this.keyCardSystem = keyCard;
 	}
