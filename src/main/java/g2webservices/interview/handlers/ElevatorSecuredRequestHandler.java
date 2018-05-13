@@ -1,8 +1,5 @@
 package g2webservices.interview.handlers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import g2webservices.interview.keycard.KeyCardAccessSystem;
 import g2webservices.interview.models.elevator.Elevator;
 import g2webservices.interview.models.elevator.ElevatorRequest;
@@ -14,8 +11,6 @@ import g2webservices.interview.models.elevator.ElevatorRequest;
  */
 public class ElevatorSecuredRequestHandler extends ElevatorRequestHandlerAbstract {
 	
-    private static final Logger LOGGER = LogManager.getLogger(ElevatorSecuredRequestHandler.class);
-    
 	private final KeyCardAccessSystem keyCardSystem;
 	
 	public ElevatorSecuredRequestHandler(Elevator elevator, KeyCardAccessSystem keyCard) {

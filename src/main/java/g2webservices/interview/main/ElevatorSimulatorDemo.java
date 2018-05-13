@@ -99,7 +99,7 @@ public class ElevatorSimulatorDemo {
 
 	private static List<FloorChangeObserver> getFloorsToBeNotified() {
 		List<FloorChangeObserver> observers = new ArrayList<>();
-		for (int i = -1; i < 50; i++) {
+		for (int i = -1; i <= 50; i++) {
 			observers.add(new Floor(String.valueOf(i), i));
 		}
 		return observers;

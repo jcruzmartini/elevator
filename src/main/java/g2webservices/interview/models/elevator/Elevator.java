@@ -10,6 +10,8 @@ public interface Elevator {
 	boolean closeDoor();
 	void up();
 	void down();
+	void stop();
+	void alarm();
 	int getMaxCapacity();
 	Set<Integer> getRestrictedFloors(); 
 }

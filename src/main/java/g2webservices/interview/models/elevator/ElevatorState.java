@@ -10,7 +10,6 @@ public class ElevatorState {
 	private StatusEnum status;
 	
 	public ElevatorState(DirectionEnum direction, Integer current, StatusEnum status) {
-		super();
 		this.direction = direction;
 		this.current = current;
 		this.status = status;
@@ -38,6 +37,5 @@ public class ElevatorState {
 	public boolean isRunning(){
 		return status == StatusEnum.RUNNING;
 	}
-	
 	
 }

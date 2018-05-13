@@ -10,7 +10,6 @@ public class ElevatorRequest {
 	
 	
 	public ElevatorRequest(int target, DirectionEnum direction, int weight) {
-		super();
 		this.target = target;
 		this.direction = direction;
 		this.weight = weight;
@@ -30,8 +29,6 @@ public class ElevatorRequest {
 	public int getWeight() {
 		return weight;
 	}
-
-
 
 
 	@Override

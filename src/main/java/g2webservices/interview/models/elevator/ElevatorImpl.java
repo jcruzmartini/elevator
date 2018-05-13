@@ -1,5 +1,6 @@
 package g2webservices.interview.models.elevator;
 
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -91,6 +92,17 @@ public class ElevatorImpl implements Elevator, FloorChangeNotifier {
 	@Override
 	public void addObserver(FloorChangeObserver observer) {
 		subscribers.add(observer);
+	}
+
+	@Override
+	public void stop() {
+		state.setStatus(StatusEnum.STOPPED);
+	}
+
+	@Override
+	public void alarm() {
+		System.out.println("weight limit is exceeded, please call maintenance service");
+		Toolkit.getDefaultToolkit().beep();
 	}
 
 }

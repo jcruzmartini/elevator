@@ -42,7 +42,9 @@ public class DummyCardAccessSystem implements KeyCardAccessSystem {
 		// in a real world scenario this should encrypt keys and validate
 		// against external db or API. 
 		// Communication need to be done at this point
-		return keys.contains(request.getKey());
+		final boolean isValid = keys.contains(request.getKey());
+		System.out.println("Key Validation Result " + isValid );
+		return isValid;
 	}
 
 }

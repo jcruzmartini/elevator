@@ -1,6 +1,5 @@
 package g2webservices.interview.handlers;
 
-import java.awt.Toolkit;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,6 +54,7 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 	private void doMovement(Elevator elevator, DirectionEnum direction, int difference) {
 		ElevatorState state = elevator.getState();
 		state.setDirection(direction);
+		
 		for (int i = 0; i < difference; i++) {
 			if (direction == DirectionEnum.DOWN) {
 				elevator.down();
@@ -77,9 +77,8 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 			return false;
 		}
 		if (maxReached(request)) {
-			System.out.println("weight limit is exceeded, please call maintenance service");
-			state.setStatus(StatusEnum.STOPPED);
-			Toolkit.getDefaultToolkit().beep();
+			elevator.stop();
+			elevator.alarm();
 			return false;
 		}
 		return true;
