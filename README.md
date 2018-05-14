@@ -25,9 +25,12 @@ This solution was designed considering OOP concepts and some common patterns lik
 
 ## Main Components
 
-- *Managers*: Thread for handling new requests. We can implement different managers, so we use different strategies for attending new requests. Current implementation is using direction based strategy, but a based time strategy can be implemented later
+- *Managers*: Thread for handling new requests. Having this components will allow us to use different managers, thus we can use different strategies for attending new incoming requests. 
+Currentyly we have an implementation that is using a direction based strategy.  But a based time strategy can be implemented later using same base components
 
-- *Handlers*: Component for processing requests. We can implement different handlers. In this version we have 2 implementation, 1 implementation for elevator without floors access restrictions and other one for interacting with keycard access system and request for key to end users
+- *Handlers*: Component for processing elevator requests. Having this components will allow us to implement different handlers. In this version we have 2 different implementation for handlers:
+   * ElevatorSimpleRequestHandler: Handler without floors access restrictions 
+   * ElevatorKeyCardRequestHandler: Hanlder for interacting with keycard access system for floors with access restriction
 
 ## Scope
 
