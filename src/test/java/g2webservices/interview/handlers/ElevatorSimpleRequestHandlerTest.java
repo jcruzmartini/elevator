@@ -1,4 +1,4 @@
-package g2webservices.interview.keycard.handlers;
+package g2webservices.interview.handlers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

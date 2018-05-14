@@ -1,6 +1,5 @@
-package g2webservices.interview.keycard.handlers;
+package g2webservices.interview.handlers;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -17,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import g2webservices.interview.enums.StatusEnum;
 import g2webservices.interview.handlers.ElevatorKeyCardRequestHandler;
 import g2webservices.interview.handlers.ElevatorRequestHandler;
 import g2webservices.interview.keycard.DummyCardAccessSystem;
