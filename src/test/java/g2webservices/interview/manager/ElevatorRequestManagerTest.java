@@ -1,9 +1,6 @@
 package g2webservices.interview.manager;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -78,6 +75,45 @@ public class ElevatorRequestManagerTest {
 		verify(handler).addStop(12);
 		verify(handler).addStop(20);
 		assertTrue(manager.getRequests().size() == 1);
+	}
+	
+	
+	@Test
+	public void testConsumingPendingRequestInQueue() {
+		final ElevatorState state = new ElevatorState(null, 0, StatusEnum.IDLE);
+		final ElevatorState running = new ElevatorState(null, 5, StatusEnum.RUNNING);
+		final ElevatorState stateMaintenance = new ElevatorState(null, 0, StatusEnum.STOPPED);
+		final ElevatorRequest up = new ElevatorRequest(10, 1);
+		final ElevatorRequest downToBasement = new ElevatorRequest(-1, 1);
+
+		when(elevator.getState()).thenReturn(state, running, running, running, running, stateMaintenance);
+		
+		manager.send(up);
+		manager.send(downToBasement);
+		manager.run();
+		
+		
+		verify(handler, times(1)).process(up);
+		verify(handler, times(1)).process(downToBasement);
+		assertTrue(manager.getRequests().size() == 0);
+	}
+	
+	@Test
+	public void testNotEnqueingRequestInQueueWhenUnderMaintenance() {
+		final ElevatorState stateMaintenance = new ElevatorState(null, 0, StatusEnum.STOPPED);
+		final ElevatorRequest up = new ElevatorRequest(10, 1);
+		final ElevatorRequest downToBasement = new ElevatorRequest(-1, 1);
+
+		when(elevator.getState()).thenReturn(stateMaintenance);
+		
+		manager.send(up);
+		manager.send(downToBasement);
+		manager.run();
+		
+		
+		verify(handler, times(0)).process(up);
+		verify(handler, times(0)).process(downToBasement);
+		assertTrue(manager.getRequests().size() == 0);
 	}
 
 }

@@ -38,4 +38,8 @@ public class ElevatorState {
 		return status == StatusEnum.RUNNING;
 	}
 	
+	public boolean isUnderMaintenance(){
+		return status == StatusEnum.STOPPED;
+	}
+	
 }

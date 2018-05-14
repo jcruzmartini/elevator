@@ -25,19 +25,21 @@ public class ElevatorRequestManagerImpl implements ElevatorRequestManager {
 	@Override
 	public void send(ElevatorRequest request) {
 		System.out.println("Adding new request " + request);
-		final ElevatorState state = elevator.getState();
+		final ElevatorState state = getElevator().getState();
 		if (state.isRunning() && (request.getTarget() > state.getCurrent() && state.getDirection() == DirectionEnum.UP)
 				|| (request.getTarget() < state.getCurrent() && state.getDirection() == DirectionEnum.DOWN)) {
 			handler.addStop(request.getTarget());
-		} else {
+			return;
+		} 
+		if (!state.isUnderMaintenance()){
 			requests.add(request);
 		}
 	}
 
 	@Override
 	public void run() {
-		while (true) {
-			if (!requests.isEmpty()) {
+		while (true && !getElevator().getState().isUnderMaintenance()) {
+			if (!getRequests().isEmpty()) {
 				handler.process(requests.poll());
 			}
 		}
@@ -46,6 +48,11 @@ public class ElevatorRequestManagerImpl implements ElevatorRequestManager {
 	@Override
 	public Deque<ElevatorRequest> getRequests() {
 		return requests;
+	}
+
+	@Override
+	public Elevator getElevator() {
+		return elevator;
 	}
 
 }
