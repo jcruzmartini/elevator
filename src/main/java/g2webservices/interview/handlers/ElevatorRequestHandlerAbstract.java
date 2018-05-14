@@ -32,15 +32,16 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 		}
 		Elevator elevator = getElevator();
 		ElevatorState state = elevator.getState();
+		final Integer current = state.getCurrent();
 		
-		if (request.getTarget() == state.getCurrent()) {
+		if (request.getTarget() == current) {
 			openDoor();
 			closeDoor();
 			return;
 		}
 		
 		state.setStatus(StatusEnum.RUNNING);
-		final int difference = request.getTarget() - state.getCurrent();
+		final int difference = request.getTarget() - current;
 		final DirectionEnum direction = (difference > 0) ? DirectionEnum.UP : DirectionEnum.DOWN;
 		
 		doMovement(elevator, direction, Math.abs(difference));
@@ -62,8 +63,9 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 			} else {
 				elevator.up();
 			}
-			if (intermediateStops.contains(state.getCurrent())) {
-				removeStop(state.getCurrent());
+			final Integer current = state.getCurrent();
+			if (getIntermediateStops().contains(current)) {
+				removeStop(current);
 				openDoor();
 				closeDoor();
 			}
@@ -78,8 +80,8 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 			return false;
 		}
 		if (maxReached(request)) {
-			elevator.stop();
-			elevator.alarm();
+			getElevator().stop();
+			getElevator().alarm();
 			return false;
 		}
 		return true;
@@ -98,22 +100,28 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 	
 	@Override
 	public boolean openDoor() {
-		return elevator.openDoor();
+		return getElevator().openDoor();
 	}
 
 	@Override
 	public void closeDoor() {
-		elevator.closeDoor();
+		getElevator().closeDoor();
 	}
 
 	@Override
 	public void addStop(Integer floor) {
-		intermediateStops.add(floor);
+		getIntermediateStops().add(floor);
 	}
 	
 	@Override
 	public void removeStop(Integer floor) {
-		intermediateStops.remove(floor);
+		getIntermediateStops().remove(floor);
 	}
+	
+	@Override
+	public Set<Integer> getIntermediateStops() {
+		return intermediateStops;
+	}
+
 
 }

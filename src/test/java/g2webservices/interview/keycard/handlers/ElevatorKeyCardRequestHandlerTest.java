@@ -1,6 +1,7 @@
 package g2webservices.interview.keycard.handlers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,6 +31,8 @@ public class ElevatorKeyCardRequestHandlerTest {
 	private ElevatorRequestHandler handler;
 	@Mock
 	private Elevator elevator;
+	@Mock
+	private ElevatorState elevatorState;
 
 	@Mock
 	private DummyCardAccessSystem keyCard;
@@ -48,13 +51,13 @@ public class ElevatorKeyCardRequestHandlerTest {
 
 	@Test
 	public void testRequestForRestrictedWithAuthenticationOK() {
-		final ElevatorState state = new ElevatorState(null, 0, StatusEnum.IDLE);
 		final ElevatorRequest request = new ElevatorRequest(-1, 1);
-		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(-1, 0 ,50)));
-		when(elevator.getState()).thenReturn(state);
+		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(-1, 50)));
+		when(elevator.getState()).thenReturn(elevatorState);
 		when(elevator.getMaxCapacity()).thenReturn(2);
 		when(keyCard.validate()).thenReturn(true);
 		when(elevator.openDoor()).thenReturn(true);
+		when(elevatorState.getCurrent()).thenReturn(0, 0, -1);
 		
 		handler.process(request);
 
@@ -62,18 +65,68 @@ public class ElevatorKeyCardRequestHandlerTest {
 		verify(keyCard, times(1)).validate();
 		verify(elevator, times(1)).openDoor();
 		verify(elevator, times(1)).closeDoor();
+	}
+	
+	@Test
+	public void testMove50To40WithIntermediateStopsToSecurizedFloorWithAccessOK() {
+		final ElevatorRequest requestTo50 = new ElevatorRequest(40, 1);
 		
-		assertEquals(elevator.getState().getStatus(), StatusEnum.IDLE);
+		when(elevator.getState()).thenReturn(elevatorState);
+		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(45)));
+		when(elevator.openDoor()).thenReturn(true);
+		when(elevatorState.getCurrent()).thenReturn(50, 50, 49, 48, 47, 46, 45, 45, 44);
+		when(keyCard.validate()).thenReturn(true);
+		when(elevator.openDoor()).thenReturn(true);
+		
+		//intermediate stops added by request manager
+		handler.addStop(45);
+		handler.addStop(44);
+		
+		handler.process(requestTo50);
+		
+		verify(elevator, times(10)).down();
+		verify(elevator, times(3)).openDoor();
+		verify(elevator, times(3)).closeDoor();
+		verify(elevator, never()).up();
+		assertTrue(handler.getIntermediateStops().isEmpty());
+		
+	}
+	
+	@Test
+	public void testMove50To40WithIntermediateStopsToSecurizedFloorWithAccessFailed() {
+		final ElevatorRequest requestTo50 = new ElevatorRequest(40, 1);
+		
+		when(elevator.getState()).thenReturn(elevatorState);
+		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(45)));
+		when(elevator.openDoor()).thenReturn(true);
+		when(elevatorState.getCurrent()).thenReturn(50, 50, 49, 48, 47, 46, 45, 45, 44);
+		when(keyCard.validate()).thenReturn(false);
+		when(elevator.openDoor()).thenReturn(false);
+		
+		//intermediate stops added by request manager
+		handler.addStop(45);
+		handler.addStop(44);
+		
+		handler.process(requestTo50);
+		
+		verify(elevator, times(10)).down();
+		verify(elevator, times(2)).openDoor();
+		verify(elevator, times(2)).closeDoor();
+		verify(elevator, never()).up();
+		assertTrue(handler.getIntermediateStops().isEmpty());
+		
 	}
 	
 	@Test
 	public void testRequestForRestrictedWithAuthenticationFailed() {
-		final ElevatorState state = new ElevatorState(null, 0, StatusEnum.IDLE);
 		final ElevatorRequest request = new ElevatorRequest(-1, 1);
-		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(-1, 0 ,50)));
-		when(elevator.getState()).thenReturn(state);
+		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(-1,50)));
+		when(elevator.getState()).thenReturn(elevatorState);
 		when(elevator.getMaxCapacity()).thenReturn(2);
 		when(keyCard.validate()).thenReturn(false);
+		when(elevatorState.getCurrent()).thenReturn(0, 0, -1);
 		
 		handler.process(request);
 
@@ -81,8 +134,6 @@ public class ElevatorKeyCardRequestHandlerTest {
 		verify(keyCard, times(1)).validate();
 		verify(elevator, never()).openDoor();
 		verify(elevator, never()).closeDoor();
-		
-		assertEquals(elevator.getState().getStatus(), StatusEnum.IDLE);
 	}
 
 }

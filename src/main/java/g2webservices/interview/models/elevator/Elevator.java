@@ -2,7 +2,9 @@ package g2webservices.interview.models.elevator;
 
 import java.util.Set;
 
-public interface Elevator {
+import g2webservices.interview.notifier.FloorChangeNotifier;
+
+public interface Elevator extends FloorChangeNotifier{
 
 	String getName();
 	ElevatorState getState();

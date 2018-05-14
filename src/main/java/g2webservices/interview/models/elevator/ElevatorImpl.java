@@ -1,18 +1,17 @@
 package g2webservices.interview.models.elevator;
 
+import static g2webservices.interview.utils.TimeUtils.simulate;
+
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static g2webservices.interview.utils.TimeUtils.simulate;
-
 import g2webservices.interview.enums.StatusEnum;
-import g2webservices.interview.notifier.FloorChangeNotifier;
 import g2webservices.interview.notifier.FloorChangeObserver;
 
-public class ElevatorImpl implements Elevator, FloorChangeNotifier {
+public class ElevatorImpl implements Elevator {
 
 	private String name;
 	private ElevatorState state;
@@ -74,7 +73,8 @@ public class ElevatorImpl implements Elevator, FloorChangeNotifier {
 	public Integer getMaxCapacity() {
 		return capacity;
 	}
-
+	
+	@Override
 	public void notifyFloorChange() {
 		subscribers.forEach(f -> f.floorChanged(state.getCurrent(), state.getDirection()));
 	}

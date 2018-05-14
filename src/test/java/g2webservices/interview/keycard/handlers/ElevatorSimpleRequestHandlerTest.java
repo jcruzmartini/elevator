@@ -1,16 +1,11 @@
 package g2webservices.interview.keycard.handlers;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.HashSet;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,6 +26,8 @@ import g2webservices.interview.models.elevator.ElevatorState;
 public class ElevatorSimpleRequestHandlerTest {
 	
 	private ElevatorRequestHandler handler;
+	@Mock
+	private ElevatorState elevatorState;
 	@Mock
 	private Elevator elevator;
 	
@@ -86,6 +83,29 @@ public class ElevatorSimpleRequestHandlerTest {
 	}
 	
 	@Test
+	public void testMove50To40WithIntermediateStops() {
+		final ElevatorRequest requestTo50 = new ElevatorRequest(40, 1);
+		
+		when(elevator.getState()).thenReturn(elevatorState);
+		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.openDoor()).thenReturn(true);
+		when(elevatorState.getCurrent()).thenReturn(50, 50, 49, 48, 47, 46, 45, 44);
+		
+		//intermediate stops added by request manager
+		handler.addStop(45);
+		handler.addStop(44);
+		
+		handler.process(requestTo50);
+		
+		verify(elevator, times(10)).down();
+		verify(elevator, times(3)).openDoor();
+		verify(elevator, times(3)).closeDoor();
+		verify(elevator, never()).up();
+		assertTrue(handler.getIntermediateStops().isEmpty());
+		
+	}
+	
+	@Test
 	public void testMaxWheightRequest() {
 		final ElevatorState state = new ElevatorState(null, 20, StatusEnum.IDLE);
 		final ElevatorRequest request = new ElevatorRequest(16, 3);
@@ -112,11 +132,12 @@ public class ElevatorSimpleRequestHandlerTest {
 		when(elevator.getMaxCapacity()).thenReturn(2);
 		
 		handler.process(request);
-		
+
 		verify(elevator, times(1)).openDoor();
 		verify(elevator, times(1)).closeDoor();
 		verify(elevator, never()).up();
 		verify(elevator, never()).down();
+		verify(elevator, never()).notifyFloorChange();
 		assertEquals(elevator.getState().getStatus(), StatusEnum.IDLE);
 	}
 	
