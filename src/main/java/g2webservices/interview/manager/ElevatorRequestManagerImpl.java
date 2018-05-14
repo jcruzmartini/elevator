@@ -12,7 +12,7 @@ import g2webservices.interview.models.elevator.ElevatorState;
 public class ElevatorRequestManagerImpl implements ElevatorRequestManager {
 
 	private final ElevatorRequestHandler handler;
-	private final ConcurrentLinkedDeque<ElevatorRequest> requests;
+	private final Deque<ElevatorRequest> requests;
 	private final Elevator elevator;
 
 	
