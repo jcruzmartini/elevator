@@ -35,7 +35,7 @@ In order to simplify the excercise and deliver an excercise that adds value in f
 
 1. IoC container is not included in this version, so injections are being done manually
 
-2. Create Factories to handle different managers, handlers and authentication method creations.
+2. Factories to handle different managers, handlers and authentication method creations need to be implemented.
 
 3. KeyCard Reader was implemented using a simple and dummy mechanism, ideally this should be integrated with a real card reader system provided by the keycard reader provider
    - Requires manual user input  
