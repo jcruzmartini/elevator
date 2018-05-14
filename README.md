@@ -20,7 +20,9 @@ In order to simplify the excercise and deliver an excercise that adds value in f
 
 1. IoC container is not included in this version
 2. KeyCard Access system was implemented using a simple and dummy mechanism
+   - Allowed keys are 902fbdd2b1df0c4f70b4a5d23525e932, c4fd1ef4041f00039def6df0331841de, d8c072a439c55274f145eae9f6583751 
 3. KeyCard Reader was implemented using a simple and dummy mechanism
+   - Requires manual user input
 4. Logs are being done using primitive java console
 
 ## Running the tests
