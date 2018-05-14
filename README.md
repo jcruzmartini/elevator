@@ -19,7 +19,9 @@ This solution was designed considering OOP concepts and some common patterns lik
 - ElevatorState
 - ElevatorRequest
 - Floor
+- Cabin
 - Building
+- KeyCardRequest
 
 ## Main Components
 
