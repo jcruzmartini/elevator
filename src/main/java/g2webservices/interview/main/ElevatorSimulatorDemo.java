@@ -35,6 +35,8 @@ import g2webservices.interview.notifier.FloorChangeObserver;
 public class ElevatorSimulatorDemo {
 	final private static int MAX_FLOOR = 50;
 	final private static int MIN_FLOOR = -1;
+	final private static int MAX_CAP_PUBLIC = 1;
+	final private static int MAX_CAP_FREIGHT = 3;
 
 	public static void main(String[] args) {
 		final ExecutorService executor = Executors.newFixedThreadPool(2);
@@ -43,7 +45,7 @@ public class ElevatorSimulatorDemo {
 		Building bulding = new Building(MAX_FLOOR, MIN_FLOOR);
 
 		Cabin cabin = new Cabin("Cab Public Elevator");
-		Elevator elevator = new ElevatorImpl("Public", new ElevatorState(null, 0, StatusEnum.IDLE), 1,
+		Elevator elevator = new ElevatorImpl("Public", new ElevatorState(null, 0, StatusEnum.IDLE), MAX_CAP_PUBLIC,
 				observersForPublic, Stream.of(MIN_FLOOR, MAX_FLOOR).collect(Collectors.toSet()), cabin);
 		bulding.addElevator(elevator);
 		
@@ -53,38 +55,44 @@ public class ElevatorSimulatorDemo {
 		ElevatorRequestManager pManager = new ElevatorRequestManagerImpl(elevator, handler);
 		executor.submit(pManager);
 
-		ElevatorRequest request = new ElevatorRequest(16, 0);
-		pManager.send(request);
+		ElevatorRequest upTo16 = new ElevatorRequest(16, 0);
+		pManager.send(upTo16);
 
 		simulate(2);
 
-		ElevatorRequest request2 = new ElevatorRequest(-1, 0);
-		pManager.send(request2);
+		ElevatorRequest downToBasement = new ElevatorRequest(-1, 0);
+		pManager.send(downToBasement);
 
 		simulate(2);
 
-		ElevatorRequest request3 = new ElevatorRequest(5, 0);
-		pManager.send(request3);
+		ElevatorRequest upTo5 = new ElevatorRequest(5, 0);
+		pManager.send(upTo5);
 
 		simulate(2);
 
-		ElevatorRequest request4 = new ElevatorRequest(50, 0);
-		pManager.send(request4);
+		ElevatorRequest upTo50 = new ElevatorRequest(50, 0);
+		pManager.send(upTo50);
 
 		simulate(2);
 
-		ElevatorRequest request5 = new ElevatorRequest(5, 2);
-		pManager.send(request5);
+		ElevatorRequest downTo5 = new ElevatorRequest(5, 2);
+		pManager.send(downTo5);
 
-		ElevatorRequest request6 = new ElevatorRequest(30, 2);
-		pManager.send(request6);
+		simulate(2);
+		
+		ElevatorRequest upTo30 = new ElevatorRequest(30, 2);
+		pManager.send(upTo30);
 
-		ElevatorRequest request7 = new ElevatorRequest(45, 2);
-		pManager.send(request7);
+		simulate(2);
+		
+		ElevatorRequest upTo45 = new ElevatorRequest(45, 2);
+		pManager.send(upTo45);
 
+		simulate(2);
+		
 		List<FloorChangeObserver> observersForFreight = getFloorsToBeNotified();
 		Cabin cabinFreight = new Cabin("Cab Freight Elevator");
-		Elevator freightElevator = new ElevatorImpl("Freight", new ElevatorState(null, 0, StatusEnum.IDLE), 3,
+		Elevator freightElevator = new ElevatorImpl("Freight", new ElevatorState(null, 0, StatusEnum.IDLE), MAX_CAP_FREIGHT,
 				observersForFreight, null, cabinFreight);
 		bulding.addElevator(freightElevator);
 
@@ -92,23 +100,23 @@ public class ElevatorSimulatorDemo {
 		ElevatorRequestManager fRManager = new ElevatorRequestManagerImpl(freightElevator, handlerFr);
 		executor.submit(fRManager);
 
-		ElevatorRequest request8 = new ElevatorRequest(16, 0);
-		fRManager.send(request8);
+		ElevatorRequest upTo16Bis = new ElevatorRequest(16, 0);
+		fRManager.send(upTo16Bis);
 		
 		simulate(2);
 
-		ElevatorRequest request9 = new ElevatorRequest(-1, 0);
-		fRManager.send(request9);
+		ElevatorRequest downToBasementBis = new ElevatorRequest(-1, 0);
+		fRManager.send(downToBasementBis);
 
 		simulate(2);
 
-		ElevatorRequest request10 = new ElevatorRequest(5, 0);
-		fRManager.send(request10);
+		ElevatorRequest upTo5Bis = new ElevatorRequest(5, 0);
+		fRManager.send(upTo5Bis);
 		
 		simulate(2);
 
-		ElevatorRequest request11 = new ElevatorRequest(5, 2);
-		fRManager.send(request11);
+		ElevatorRequest exceeded = new ElevatorRequest(5, 2);
+		fRManager.send(exceeded);
 
 	}
 
