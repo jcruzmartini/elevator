@@ -33,12 +33,13 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 		Elevator elevator = getElevator();
 		ElevatorState state = elevator.getState();
 		
-		state.setStatus(StatusEnum.RUNNING);
-
 		if (request.getTarget() == state.getCurrent()) {
 			openDoor();
+			closeDoor();
+			return;
 		}
-
+		
+		state.setStatus(StatusEnum.RUNNING);
 		final int difference = request.getTarget() - state.getCurrent();
 		final DirectionEnum direction = (difference > 0) ? DirectionEnum.UP : DirectionEnum.DOWN;
 		

@@ -10,6 +10,12 @@ import g2webservices.interview.models.keycard.KeyCardRequest;
 
 public class DummyCardAccessSystem implements KeyCardAccessSystem {
 
+	private final KeyCardReader reader;
+	
+	public DummyCardAccessSystem(KeyCardReader reader) {
+		this.reader = reader;
+	}
+
 	private final List<String> keys = Arrays.asList(DigestUtils.md5Hex("ABC"), DigestUtils.md5Hex("ACC"),
 			DigestUtils.md5Hex("CCA")); // mocked allowed keys for dummy card access system
 
@@ -18,11 +24,7 @@ public class DummyCardAccessSystem implements KeyCardAccessSystem {
 		// in a real world case , we need to
 		// interact with reader keycard system here 
 		// and get the token of access card that is being used
-		System.out.println("Please Enter ACCESS KEY");
-		Scanner sc = new Scanner(System.in);
-		final String input = sc.nextLine();
-		sc.close();
-		return DigestUtils.md5Hex(input); 
+		return reader.read();
 	}
 
 	@Override

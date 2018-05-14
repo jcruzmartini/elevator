@@ -12,6 +12,6 @@ public interface Elevator {
 	void down();
 	void stop();
 	void alarm();
-	int getMaxCapacity();
+	Integer getMaxCapacity();
 	Set<Integer> getRestrictedFloors(); 
 }

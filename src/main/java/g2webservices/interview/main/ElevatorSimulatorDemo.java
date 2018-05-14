@@ -10,11 +10,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import g2webservices.interview.enums.StatusEnum;
+import g2webservices.interview.handlers.ElevatorKeyCardRequestHandler;
 import g2webservices.interview.handlers.ElevatorRequestHandler;
 import g2webservices.interview.handlers.ElevatorSimpleRequestHandler;
-import g2webservices.interview.handlers.ElevatorKeyCardRequestHandler;
 import g2webservices.interview.keycard.DummyCardAccessSystem;
 import g2webservices.interview.keycard.KeyCardAccessSystem;
+import g2webservices.interview.keycard.KeyCardReader;
+import g2webservices.interview.keycard.ManualUserKeyReader;
 import g2webservices.interview.manager.ElevatorRequestManager;
 import g2webservices.interview.manager.ElevatorRequestManagerImpl;
 import g2webservices.interview.models.Building;
@@ -44,8 +46,9 @@ public class ElevatorSimulatorDemo {
 		Elevator elevator = new ElevatorImpl("Public", new ElevatorState(null, 0, StatusEnum.IDLE), 1,
 				observersForPublic, Stream.of(MIN_FLOOR, MAX_FLOOR).collect(Collectors.toSet()), cabin);
 		bulding.addElevator(elevator);
-
-		KeyCardAccessSystem keyCard = new DummyCardAccessSystem();
+		
+		KeyCardReader reader = new ManualUserKeyReader();
+		KeyCardAccessSystem keyCard = new DummyCardAccessSystem(reader);
 		ElevatorRequestHandler handler = new ElevatorKeyCardRequestHandler(elevator, keyCard);
 		ElevatorRequestManager pManager = new ElevatorRequestManagerImpl(elevator, handler);
 		executor.submit(pManager);

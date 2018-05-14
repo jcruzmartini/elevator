@@ -20,7 +20,7 @@ public class ElevatorImpl implements Elevator, FloorChangeNotifier {
 	List<FloorChangeObserver> subscribers = new ArrayList<>(); // floors and cabs to be notified when new floor is reached
 	Set<Integer> securized = new HashSet<>();
 
-	public ElevatorImpl(String name, ElevatorState state, int capacity, List<FloorChangeObserver> floors,
+	public ElevatorImpl(String name, ElevatorState state, Integer capacity, List<FloorChangeObserver> floors,
 			Set<Integer> securized, ElevatorCab cab) {
 		this.name = name;
 		this.state = state;
@@ -71,7 +71,7 @@ public class ElevatorImpl implements Elevator, FloorChangeNotifier {
 	}
 
 	@Override
-	public int getMaxCapacity() {
+	public Integer getMaxCapacity() {
 		return capacity;
 	}
 
