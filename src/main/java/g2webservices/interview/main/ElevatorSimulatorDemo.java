@@ -22,7 +22,7 @@ import g2webservices.interview.manager.ElevatorRequestManagerImpl;
 import g2webservices.interview.models.Building;
 import g2webservices.interview.models.Floor;
 import g2webservices.interview.models.elevator.Elevator;
-import g2webservices.interview.models.elevator.ElevatorCab;
+import g2webservices.interview.models.elevator.Cabin;
 import g2webservices.interview.models.elevator.ElevatorImpl;
 import g2webservices.interview.models.elevator.ElevatorRequest;
 import g2webservices.interview.models.elevator.ElevatorState;
@@ -42,7 +42,7 @@ public class ElevatorSimulatorDemo {
 		List<FloorChangeObserver> observersForPublic = getFloorsToBeNotified();
 		Building bulding = new Building(MAX_FLOOR, MIN_FLOOR);
 
-		ElevatorCab cabin = new ElevatorCab("Cab Public Elevator");
+		Cabin cabin = new Cabin("Cab Public Elevator");
 		Elevator elevator = new ElevatorImpl("Public", new ElevatorState(null, 0, StatusEnum.IDLE), 1,
 				observersForPublic, Stream.of(MIN_FLOOR, MAX_FLOOR).collect(Collectors.toSet()), cabin);
 		bulding.addElevator(elevator);
@@ -83,7 +83,7 @@ public class ElevatorSimulatorDemo {
 		pManager.send(request7);
 
 		List<FloorChangeObserver> observersForFreight = getFloorsToBeNotified();
-		ElevatorCab cabinFreight = new ElevatorCab("Cab Freight Elevator");
+		Cabin cabinFreight = new Cabin("Cab Freight Elevator");
 		Elevator freightElevator = new ElevatorImpl("Freight", new ElevatorState(null, 0, StatusEnum.IDLE), 3,
 				observersForFreight, null, cabinFreight);
 		bulding.addElevator(freightElevator);

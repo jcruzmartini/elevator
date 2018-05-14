@@ -3,7 +3,7 @@ package g2webservices.interview.models.keycard;
 public class KeyCardRequest {
 
 	private final long timestamp;
-	private transient String key; // encrypted
+	private final String key; // this should be encrypted
 
 	public KeyCardRequest(long timestamp, String key) {
 		this.timestamp = timestamp;

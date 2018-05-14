@@ -16,17 +16,19 @@ public class ElevatorImpl implements Elevator {
 	private String name;
 	private ElevatorState state;
 	private int capacity; // in tons
-	List<FloorChangeObserver> subscribers = new ArrayList<>(); // floors and cabs to be notified when new floor is reached
+	private Cabin cabin;
+	List<FloorChangeObserver> observers = new ArrayList<>(); // floors and cabs to be notified when new floor is reached
 	Set<Integer> securized = new HashSet<>();
 
 	public ElevatorImpl(String name, ElevatorState state, Integer capacity, List<FloorChangeObserver> floors,
-			Set<Integer> securized, ElevatorCab cab) {
+			Set<Integer> securized, Cabin cabin) {
 		this.name = name;
 		this.state = state;
 		this.capacity = capacity;
-		this.subscribers = floors;
+		this.observers = floors;
 		this.securized = securized;
-		addObserver(cab);
+		this.cabin = cabin;
+		addObserver(cabin);
 	}
 
 	@Override
@@ -76,7 +78,7 @@ public class ElevatorImpl implements Elevator {
 	
 	@Override
 	public void notifyFloorChange() {
-		subscribers.forEach(f -> f.floorChanged(state.getCurrent(), state.getDirection()));
+		observers.forEach(f -> f.floorChanged(state.getCurrent(), state.getDirection()));
 	}
 
 	@Override
@@ -91,7 +93,7 @@ public class ElevatorImpl implements Elevator {
 
 	@Override
 	public void addObserver(FloorChangeObserver observer) {
-		subscribers.add(observer);
+		observers.add(observer);
 	}
 
 	@Override

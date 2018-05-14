@@ -1,5 +1,6 @@
 package g2webservices.interview.manager;
 
+import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import g2webservices.interview.enums.DirectionEnum;
@@ -40,6 +41,11 @@ public class ElevatorRequestManagerImpl implements ElevatorRequestManager {
 				handler.process(requests.poll());
 			}
 		}
+	}
+
+	@Override
+	public Deque<ElevatorRequest> getRequests() {
+		return requests;
 	}
 
 }
