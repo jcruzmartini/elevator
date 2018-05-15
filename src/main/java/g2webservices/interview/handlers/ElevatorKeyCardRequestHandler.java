@@ -5,7 +5,7 @@ import g2webservices.interview.models.elevator.Elevator;
 import g2webservices.interview.models.elevator.ElevatorRequest;
 
 /**
- * simple request handler for controlling only Max Weight
+ * keycard request handler for processing elevator requests
  * @author jmartini
  *
  */

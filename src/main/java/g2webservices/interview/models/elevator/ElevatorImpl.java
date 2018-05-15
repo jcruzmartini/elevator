@@ -3,9 +3,7 @@ package g2webservices.interview.models.elevator;
 import static g2webservices.interview.utils.TimeUtils.simulate;
 
 import java.awt.Toolkit;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import g2webservices.interview.enums.StatusEnum;
@@ -15,17 +13,15 @@ public class ElevatorImpl implements Elevator {
 
 	private String name;
 	private ElevatorState state;
-	private int capacity; // in tons
+	private float capacity; // in tons
 	private Cabin cabin;
-	List<FloorChangeObserver> observers = new ArrayList<>(); // floors and cabs to be notified when new floor is reached
+	Set<FloorChangeObserver> observers = new HashSet<>(); // floors and cabs to be notified when new floor is reached
 	Set<Integer> securized = new HashSet<>();
 
-	public ElevatorImpl(String name, ElevatorState state, Integer capacity, List<FloorChangeObserver> floors,
-			Set<Integer> securized, Cabin cabin) {
+	public ElevatorImpl(String name, ElevatorState state, float capacity,	Set<Integer> securized, Cabin cabin) {
 		this.name = name;
 		this.state = state;
 		this.capacity = capacity;
-		this.observers = floors;
 		this.securized = securized;
 		this.cabin = cabin;
 		addObserver(cabin);
@@ -72,13 +68,13 @@ public class ElevatorImpl implements Elevator {
 	}
 
 	@Override
-	public Integer getMaxCapacity() {
+	public float getMaxCapacity() {
 		return capacity;
 	}
 	
 	@Override
 	public void notifyFloorChange() {
-		observers.forEach(f -> f.floorChanged(state.getCurrent(), state.getDirection()));
+		getObservers().forEach(f -> f.floorChanged(state.getCurrent(), state.getDirection()));
 	}
 
 	@Override
@@ -93,7 +89,7 @@ public class ElevatorImpl implements Elevator {
 
 	@Override
 	public void addObserver(FloorChangeObserver observer) {
-		observers.add(observer);
+		getObservers().add(observer);
 	}
 
 	@Override
@@ -105,6 +101,16 @@ public class ElevatorImpl implements Elevator {
 	public void alarm() {
 		System.out.println("weight limit is exceeded, please call maintenance service");
 		Toolkit.getDefaultToolkit().beep();
+	}
+
+	@Override
+	public Set<FloorChangeObserver> getObservers() {
+		return observers;
+	}
+
+	@Override
+	public void removeObserver(FloorChangeObserver observer) {
+		getObservers().remove(observer);
 	}
 
 }

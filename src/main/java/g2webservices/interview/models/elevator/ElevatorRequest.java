@@ -3,9 +3,9 @@ package g2webservices.interview.models.elevator;
 public class ElevatorRequest {
 
 	private int target;
-	private int weight;
+	private float weight;
 	
-	public ElevatorRequest(int target, int weight) {
+	public ElevatorRequest(int target, float weight) {
 		this.target = target;
 		this.weight = weight;
 	}
@@ -14,7 +14,7 @@ public class ElevatorRequest {
 		return target;
 	}
 
-	public int getWeight() {
+	public float getWeight() {
 		return weight;
 	}
 

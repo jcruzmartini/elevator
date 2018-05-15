@@ -2,12 +2,17 @@ package g2webservices.interview.keycard;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
 import g2webservices.interview.models.keycard.KeyCardRequest;
 
+/**
+ * Card System Implementation using a dummy mechanism of authentication
+ * Allowed keys are 902fbdd2b1df0c4f70b4a5d23525e932, c4fd1ef4041f00039def6df0331841de, d8c072a439c55274f145eae9f6583751
+ * @author jmartini
+ *
+ */
 public class DummyCardAccessSystem implements KeyCardAccessSystem {
 
 	private final KeyCardReader reader;

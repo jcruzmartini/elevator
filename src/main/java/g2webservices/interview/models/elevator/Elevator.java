@@ -14,6 +14,6 @@ public interface Elevator extends FloorChangeNotifier{
 	void down();
 	void stop();
 	void alarm();
-	Integer getMaxCapacity();
+	float getMaxCapacity();
 	Set<Integer> getRestrictedFloors(); 
 }

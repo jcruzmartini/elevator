@@ -9,6 +9,13 @@ import g2webservices.interview.models.elevator.Elevator;
 import g2webservices.interview.models.elevator.ElevatorRequest;
 import g2webservices.interview.models.elevator.ElevatorState;
 
+/**
+ * Request manager implementation for handling elevator request using a direction strategy
+ * Direction Strategy: The decision of where elevator should go, is decided based in the direction and 
+ * current position of the elevator 
+ * @author jmartini
+ *
+ */
 public class ElevatorRequestManagerImpl implements ElevatorRequestManager {
 
 	private final ElevatorRequestHandler handler;

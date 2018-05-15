@@ -48,7 +48,7 @@ public class ElevatorSimpleRequestHandlerTest {
 		final ElevatorRequest request = new ElevatorRequest(10, 1);
 		
 		when(elevator.getState()).thenReturn(state);
-		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getMaxCapacity()).thenReturn(2f);
 		when(elevator.openDoor()).thenReturn(true);
 		
 		handler.process(request);
@@ -68,7 +68,7 @@ public class ElevatorSimpleRequestHandlerTest {
 		final ElevatorRequest request = new ElevatorRequest(0, 1);
 		
 		when(elevator.getState()).thenReturn(state);
-		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getMaxCapacity()).thenReturn(2f);
 		when(elevator.openDoor()).thenReturn(true);
 
 		handler.process(request);
@@ -87,7 +87,7 @@ public class ElevatorSimpleRequestHandlerTest {
 		final ElevatorRequest requestTo50 = new ElevatorRequest(40, 1);
 		
 		when(elevator.getState()).thenReturn(elevatorState);
-		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getMaxCapacity()).thenReturn(2f);
 		when(elevator.openDoor()).thenReturn(true);
 		when(elevatorState.getCurrent()).thenReturn(50, 50, 49, 48, 47, 46, 45, 44);
 		
@@ -111,7 +111,7 @@ public class ElevatorSimpleRequestHandlerTest {
 		final ElevatorRequest request = new ElevatorRequest(16, 3);
 		
 		when(elevator.getState()).thenReturn(state);
-		when(elevator.getMaxCapacity()).thenReturn(1);
+		when(elevator.getMaxCapacity()).thenReturn(1f);
 		
 		handler.process(request);
 		
@@ -129,7 +129,7 @@ public class ElevatorSimpleRequestHandlerTest {
 		final ElevatorRequest request = new ElevatorRequest(20, 1);
 		
 		when(elevator.getState()).thenReturn(state);
-		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getMaxCapacity()).thenReturn(2f);
 		
 		handler.process(request);
 

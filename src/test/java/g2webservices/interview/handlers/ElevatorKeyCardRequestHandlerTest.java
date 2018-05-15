@@ -49,10 +49,10 @@ public class ElevatorKeyCardRequestHandlerTest {
 
 	@Test
 	public void testRequestForRestrictedWithAuthenticationOK() {
-		final ElevatorRequest request = new ElevatorRequest(-1, 1);
+		final ElevatorRequest request = new ElevatorRequest(-1, 1f);
 		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(-1, 50)));
 		when(elevator.getState()).thenReturn(elevatorState);
-		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getMaxCapacity()).thenReturn(2f);
 		when(keyCard.validate()).thenReturn(true);
 		when(elevator.openDoor()).thenReturn(true);
 		when(elevatorState.getCurrent()).thenReturn(0, 0, -1);
@@ -67,10 +67,10 @@ public class ElevatorKeyCardRequestHandlerTest {
 	
 	@Test
 	public void testMove50To40WithIntermediateStopsToSecurizedFloorWithAccessOK() {
-		final ElevatorRequest requestTo50 = new ElevatorRequest(40, 1);
+		final ElevatorRequest requestTo50 = new ElevatorRequest(40, 1f);
 		
 		when(elevator.getState()).thenReturn(elevatorState);
-		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getMaxCapacity()).thenReturn(2f);
 		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(45)));
 		when(elevator.openDoor()).thenReturn(true);
 		when(elevatorState.getCurrent()).thenReturn(50, 50, 49, 48, 47, 46, 45, 45, 44);
@@ -96,7 +96,7 @@ public class ElevatorKeyCardRequestHandlerTest {
 		final ElevatorRequest requestTo50 = new ElevatorRequest(40, 1);
 		
 		when(elevator.getState()).thenReturn(elevatorState);
-		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getMaxCapacity()).thenReturn(2f);
 		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(45)));
 		when(elevator.openDoor()).thenReturn(true);
 		when(elevatorState.getCurrent()).thenReturn(50, 50, 49, 48, 47, 46, 45, 45, 44);
@@ -122,7 +122,7 @@ public class ElevatorKeyCardRequestHandlerTest {
 		final ElevatorRequest request = new ElevatorRequest(-1, 1);
 		when(elevator.getRestrictedFloors()).thenReturn(new HashSet<>(Arrays.asList(-1,50)));
 		when(elevator.getState()).thenReturn(elevatorState);
-		when(elevator.getMaxCapacity()).thenReturn(2);
+		when(elevator.getMaxCapacity()).thenReturn(2f);
 		when(keyCard.validate()).thenReturn(false);
 		when(elevatorState.getCurrent()).thenReturn(0, 0, -1);
 		

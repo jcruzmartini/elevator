@@ -79,7 +79,7 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 			System.out.println("Elevator under maintenance service");
 			return false;
 		}
-		if (maxReached(request)) {
+		if (isMaxWheightReached(request)) {
 			getElevator().stop();
 			getElevator().alarm();
 			return false;
@@ -87,11 +87,6 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 		return true;
 	}
 
-	
-
-	private boolean maxReached(ElevatorRequest request) {
-		return request.getWeight() >= getElevator().getMaxCapacity();
-	}
 
 	@Override
 	public Elevator getElevator() {
@@ -121,6 +116,10 @@ public abstract class ElevatorRequestHandlerAbstract implements ElevatorRequestH
 	@Override
 	public Set<Integer> getIntermediateStops() {
 		return intermediateStops;
+	}
+	
+	private boolean isMaxWheightReached(ElevatorRequest request) {
+		return request.getWeight() >= getElevator().getMaxCapacity();
 	}
 
 

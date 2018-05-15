@@ -2,8 +2,11 @@ package g2webservices.interview.keycard;
 
 import java.util.Scanner;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
+/**
+ * Access key reader for reading input from passenger
+ * @author jmartini
+ *
+ */
 public class ManualUserKeyReader implements KeyCardReader {
 
 	@Override
@@ -12,7 +15,7 @@ public class ManualUserKeyReader implements KeyCardReader {
 		Scanner sc = new Scanner(System.in);
 		final String input = sc.nextLine();
 		sc.close();
-		return DigestUtils.md5Hex(input); 
+		return input; 
 	}
 
 }
