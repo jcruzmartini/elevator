@@ -1,0 +1,5 @@
+/home/jmartini/Documents/workspace_mc/elevator/src/test/java/g2webservices/interview/keycard/KeyCardAccessSystemTest.java
+/home/jmartini/Documents/workspace_mc/elevator/src/test/java/g2webservices/interview/handlers/ElevatorKeyCardRequestHandlerTest.java
+/home/jmartini/Documents/workspace_mc/elevator/src/test/java/g2webservices/interview/manager/ElevatorRequestManagerTest.java
+/home/jmartini/Documents/workspace_mc/elevator/src/test/java/g2webservices/interview/notifier/FloorChangeNotifierTest.java
+/home/jmartini/Documents/workspace_mc/elevator/src/test/java/g2webservices/interview/handlers/ElevatorSimpleRequestHandlerTest.java

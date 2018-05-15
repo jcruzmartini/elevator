@@ -20,7 +20,7 @@ public class ElevatorRequest {
 
 	@Override
 	public String toString() {
-		return "ElevatorRequest [target=" + target + ", weight=" + "weight ]";
+		return "ElevatorRequest [target=" + target + ", weight=" + weight + "]";
 	}
 	
 }
