@@ -38,7 +38,7 @@ In order to simplify the excercise and deliver an excercise that adds value in f
 
 1. IoC container is not included in this version, so injections are being done manually
 
-2. Factories to handle different managers, handlers and authentication method creations need to be implemented.
+2. Factories for creating different managers, handlers and authentication method need to be implemented.
 
 3. KeyCard Reader was implemented using a simple and dummy mechanism, ideally this should be integrated with a real card reader system provided by the keycard reader provider
    - Requires manual user input  
@@ -47,6 +47,8 @@ In order to simplify the excercise and deliver an excercise that adds value in f
    - Allowed keys are 902fbdd2b1df0c4f70b4a5d23525e932, c4fd1ef4041f00039def6df0331841de, d8c072a439c55274f145eae9f6583751 
 
 5. Logs are being done using primitive java console
+
+6. Improve Error Handling
 
 
 ## Running the tests
